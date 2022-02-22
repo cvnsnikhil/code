@@ -1,0 +1,37 @@
+node{
+
+def mavenHome = tool name: "maven3.6"
+properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '3')), [$class: 'JobLocalConfiguration', changeReasonComment: ''], pipelineTriggers([pollSCM('* * * * *')])])
+
+stage('checkoutcode'){
+git credentialsId: 'c86751e0-ea81-4394-8628-6eb7c6fe7056', url: 'https://github.com/cvnsnikhil/code.git'
+}
+
+stage('Build'){
+sh "${mavenHome}/bin/mvn clean package"
+}
+
+stage('ExecuteSonarQubeReport')
+{
+sh "${mavenHome}/bin/mvn sonar:sonar"
+}
+
+stage('UploadArctifactsIntoNexus')
+{
+sh "${mavenHome}/bin/mvn deploy"
+}
+
+stage('deployappintomcat'){
+sshagent(['beacfa6e-dd5b-4b72-bb65-c22801031466']) {
+    sh "scp target/maven-web-application.war ec2-user@15.206.73.124:/opt/apache-tomcat-9.0.46/webapps/"
+}
+}
+
+stage('sendemail'){
+    emailext body: '''Build over!!!!
+
+
+tnhnaku nikhil''', subject: 'build over', to: 'cvns786@gmail.com'
+
+}
+}
