@@ -1,12 +1,10 @@
-delcerative way script
------------------------
-
-
-
-
 pipeline{
 
-agent any
+//agent any
+
+agent{
+lable('node1')
+}
 
 triggers{
 pollscm('* * * * *')
