@@ -1,0 +1,61 @@
+delcerative way script
+-----------------------
+
+
+
+
+pipeline{
+
+agent any
+
+tools{
+maven"maven3.6"
+}
+
+stages{
+
+stage('gitcode'){
+ steps{
+git credentialsId: 'c86751e0-ea81-4394-8628-6eb7c6fe7056', url: 'https://github.com/cvnsnikhil/code.git'
+ }
+ }
+
+stage('build'){
+ steps{
+ sh "mvn clean package"
+}
+}
+
+stage('soanarcube'){
+steps{
+ sh "mvn sonar:sonar"
+}
+}
+
+stage('nexus'){
+steps{
+ sh "mvn deploy"
+}
+}
+
+}
+
+}
+
+post{
+
+success{
+
+
+}
+
+failaur{
+
+
+
+}
+}
+
+
+
+ 
