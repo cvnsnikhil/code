@@ -1,3 +1,4 @@
 this is to push the file into the github repository for practice purp
 file has been pushed into the code repo in git hub
 created new branch for testing to merge branch in to main
+merged successfully in to main
