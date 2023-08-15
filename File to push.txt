@@ -1,1 +1,2 @@
-this is to push the file into the github repository for practice purpose
+this is to push the file into the github repository for practice purp
+file has been pushed into the code repo in git hub
